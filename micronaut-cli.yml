@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: http.request.checker
+---
+testFramework: kotlintest
+sourceLanguage: kotlin
