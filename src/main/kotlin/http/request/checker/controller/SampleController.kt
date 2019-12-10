@@ -23,19 +23,20 @@ class SampleController {
             @Header("box-signature-primary") primarySignature: String,
             @Header("box-signature-secondary") secondarySignature: String,
             @Header("box-signature-version") version: String,
+            @Header("content-type") contentType: String,
             @Body body: String
     ): String {
         logger.info("request headers -----")
-        logger.info("[box-delivery-id]:{}", id)
-        logger.info("[box-delivery-timestamp]:{}", timestamp)
-        logger.info("[box-signature-algorithm]:{}", algorithm)
-        logger.info("[box-signature-primary]:{}", primarySignature)
-        logger.info("[box-signature-secondary]:{}", secondarySignature)
-        logger.info("[box-signature-version]:{}", version)
+        logger.info("[box-delivery-id]: {}", id)
+        logger.info("[box-delivery-timestamp]: {}", timestamp)
+        logger.info("[box-signature-algorithm]: {}", algorithm)
+        logger.info("[box-signature-primary]: {}", primarySignature)
+        logger.info("[box-signature-secondary]: {}", secondarySignature)
+        logger.info("[box-signature-version]: {}", version)
+        logger.info("[content-type]: {}", contentType)
         logger.info("request headers -----")
 
-        logger.info("request body:{}", body)
-
+        logger.info("request body: {}", body)
         val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
         logger.info("primaryKey:{}", primaryKey)
         logger.info("secondaryKey:{}", secondaryKey)
