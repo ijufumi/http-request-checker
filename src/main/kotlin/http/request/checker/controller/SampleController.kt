@@ -9,7 +9,7 @@ import io.micronaut.http.annotation.Post
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger
 import com.box.sdk.BoxWebHookSignatureVerifier
-
+import io.micronaut.http.HttpRequest
 
 @Controller("/")
 class SampleController {
@@ -20,6 +20,7 @@ class SampleController {
 
     @Post(consumes = [MediaType.APPLICATION_JSON])
     fun post(
+            request: HttpRequest<Any>,
             @Header("box-delivery-id") id: String,
             @Header("box-delivery-timestamp") timestamp: String,
             @Header("box-signature-algorithm") algorithm: String,
@@ -37,6 +38,10 @@ class SampleController {
         logger.info("[box-signature-secondary]: {}", secondarySignature)
         logger.info("[box-signature-version]: {}", version)
         logger.info("[content-type]: {}", contentType)
+        for (header in request.headers) {
+            logger.info("[{}]: {}", header.key, header.value)
+        }
+
         logger.info("request headers -----")
 
         logger.info("request body: {}", body)
