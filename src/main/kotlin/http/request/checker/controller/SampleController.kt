@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 import org.slf4j.Logger
 import com.box.sdk.BoxWebHookSignatureVerifier
 import io.micronaut.http.HttpRequest
+import java.nio.charset.Charset
 
 @Controller("/")
 class SampleController {
@@ -45,13 +46,16 @@ class SampleController {
         logger.info("request headers -----")
 
         logger.info("request body: {}", body)
+        val newBody = body.toByteArray(Charsets.UTF_8).toString(Charsets.UTF_8)
+        logger.info("newBody: {}", newBody)
         val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
-        logger.info("primaryKey:{}", primaryKey)
-        logger.info("secondaryKey:{}", secondaryKey)
+        logger.info("primaryKey: {}", primaryKey)
+        logger.info("secondaryKey: {}", secondaryKey)
 
-        logger.info("validation:{}", validation.verify(version, algorithm, primarySignature, secondarySignature, body, timestamp))
-        logger.info("primarySign:{}", validation.sign(BoxWebHookSignatureVerifier.BoxSignatureAlgorithm.HMAC_SHA256, primaryKey, body, timestamp))
-        logger.info("secondarySign:{}", validation.sign(BoxWebHookSignatureVerifier.BoxSignatureAlgorithm.HMAC_SHA256, secondaryKey, body, timestamp))
+        logger.info("validation: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, body, timestamp))
+        logger.info("validation2: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, newBody, timestamp))
+        logger.info("primarySign: {}", validation.sign(BoxWebHookSignatureVerifier.BoxSignatureAlgorithm.HMAC_SHA256, primaryKey, body, timestamp))
+        logger.info("secondarySign: {}", validation.sign(BoxWebHookSignatureVerifier.BoxSignatureAlgorithm.HMAC_SHA256, secondaryKey, body, timestamp))
         return "hello, world"
     }
 
