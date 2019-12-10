@@ -37,6 +37,9 @@ class SampleController {
         logger.info("request body:{}", body)
 
         val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
+        logger.info("primaryKey:{}", primaryKey)
+        logger.info("secondaryKey:{}", secondaryKey)
+
         logger.info("validation:{}", validation.verify(version, algorithm, primarySignature, secondarySignature, body, timestamp))
         return "hello, world"
     }
