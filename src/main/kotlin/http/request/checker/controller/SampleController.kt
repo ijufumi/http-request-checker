@@ -41,6 +41,8 @@ class SampleController {
         logger.info("secondaryKey:{}", secondaryKey)
 
         logger.info("validation:{}", validation.verify(version, algorithm, primarySignature, secondarySignature, body, timestamp))
+        logger.info("primarySign:{}", validation.sign(BoxWebHookSignatureVerifier.BoxSignatureAlgorithm.HMAC_SHA256, primaryKey, body, timestamp))
+        logger.info("secondarySign:{}", validation.sign(BoxWebHookSignatureVerifier.BoxSignatureAlgorithm.HMAC_SHA256, secondaryKey, body, timestamp))
         return "hello, world"
     }
 
