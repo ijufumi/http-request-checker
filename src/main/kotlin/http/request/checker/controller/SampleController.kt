@@ -7,14 +7,17 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import org.slf4j.LoggerFactory
+import org.slf4j.Logger
 import com.box.sdk.BoxWebHookSignatureVerifier
 
 
 @Controller("/")
 class SampleController {
-    val logger = LoggerFactory.getLogger("test")
-    val primaryKey = System.getenv("BOX_PRIMARY_KEY")
-    val secondaryKey = System.getenv("BOX_SECONDARY_KEY")
+
+    private val logger: Logger = LoggerFactory.getLogger(javaClass.simpleName)
+    private val primaryKey = System.getenv("BOX_PRIMARY_KEY")
+    private val secondaryKey = System.getenv("BOX_SECONDARY_KEY")
+
     @Post(consumes = [MediaType.APPLICATION_JSON])
     fun post(
             @Header("box-delivery-id") id: String,
