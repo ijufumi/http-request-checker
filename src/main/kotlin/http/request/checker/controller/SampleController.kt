@@ -45,7 +45,7 @@ class SampleController {
         }
 
         logger.info("request headers -----")
-        logger.info("remoteHost: {}", InetAddress.getByAddress(xForwardedFor.toByteArray()))
+        logger.info("remoteHost: {}", InetAddress.getByName(xForwardedFor).hostName)
         logger.info("request body: {}", body)
         val newBody = body.toByteArray(Charsets.UTF_8).toString(Charsets.UTF_8)
         logger.info("newBody: {}", newBody)
