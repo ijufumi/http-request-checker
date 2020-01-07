@@ -44,7 +44,7 @@ class SampleController {
         }
 
         logger.info("request headers -----")
-
+        logger.info("remoteAddress: {}", request.remoteAddress)
         logger.info("request body: {}", body)
         val newBody = body.toByteArray(Charsets.UTF_8).toString(Charsets.UTF_8)
         logger.info("newBody: {}", newBody)
