@@ -74,6 +74,7 @@ class SampleController {
             logger.info("{} newBody: {}", char, newBody)
             logger.info("validation: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, newBody, timestamp))
             val newBody2 = body.toByteArray(char).toString(Charsets.UTF_8)
+            logger.info("validation2: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, newBody2, timestamp))
 
         }
     }
