@@ -11,6 +11,7 @@ import org.slf4j.Logger
 import com.box.sdk.BoxWebHookSignatureVerifier
 import io.micronaut.http.HttpRequest
 import java.net.InetAddress
+import java.nio.charset.Charset
 
 @Controller("/")
 class SampleController {
@@ -55,13 +56,25 @@ class SampleController {
                            primarySignature: String,
                            secondarySignature: String,
                            timestamp: String,
-                           body: String): Unit {
-        val list = arrayOf(Charsets.UTF_8, Charsets.UTF_16, Charsets.UTF_32, Charsets.ISO_8859_1, Charsets.US_ASCII)
+                           body: String) {
+        val list = arrayOf(
+                Charsets.UTF_8,
+                Charsets.UTF_16,
+                Charsets.UTF_32,
+                Charsets.ISO_8859_1,
+                Charsets.US_ASCII,
+                Charsets.UTF_16BE,
+                Charsets.UTF_16LE,
+                Charsets.UTF_32BE,
+                Charsets.UTF_32LE)
         val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
+        logger.info("defaultCharset: {}", Charset.defaultCharset())
         for (char in list) {
             val newBody = body.toByteArray(Charsets.UTF_8).toString(char)
             logger.info("{} newBody: {}", char, newBody)
             logger.info("validation: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, newBody, timestamp))
+            val newBody2 = body.toByteArray(char).toString(Charsets.UTF_8)
+
         }
     }
 
