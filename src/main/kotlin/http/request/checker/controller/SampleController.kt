@@ -45,19 +45,24 @@ class SampleController {
         }
 
         logger.info("request headers -----")
-        logger.info("remoteHost: {}", InetAddress.getByName(xForwardedFor).hostName)
-        logger.info("request body: {}", body)
-        val newBody = body.toByteArray(Charsets.UTF_8).toString(Charsets.UTF_8)
-        logger.info("newBody: {}", newBody)
-        val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
-        logger.info("primaryKey: {}", primaryKey)
-        logger.info("secondaryKey: {}", secondaryKey)
-
-        logger.info("validation: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, body, timestamp))
-        logger.info("validation2: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, newBody, timestamp))
-        logger.info("primarySign: {}", validation.sign(BoxWebHookSignatureVerifier.BoxSignatureAlgorithm.HMAC_SHA256, primaryKey, body, timestamp))
-        logger.info("secondarySign: {}", validation.sign(BoxWebHookSignatureVerifier.BoxSignatureAlgorithm.HMAC_SHA256, secondaryKey, body, timestamp))
+        // logger.info("remoteHost: {}", InetAddress.getByName(xForwardedFor).hostName)
+        validation(version, algorithm, primarySignature, secondarySignature, timestamp, body)
         return "hello, world"
+    }
+
+    private fun validation(version: String,
+                           algorithm: String,
+                           primarySignature: String,
+                           secondarySignature: String,
+                           timestamp: String,
+                           body: String): Unit {
+        val list = arrayOf(Charsets.UTF_8, Charsets.UTF_16, Charsets.UTF_32, Charsets.ISO_8859_1, Charsets.US_ASCII)
+        val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
+        for (char in list) {
+            val newBody = body.toByteArray(Charsets.UTF_8).toString(char)
+            logger.info("{} newBody: {}", char, newBody)
+            logger.info("validation: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, body, timestamp))
+        }
     }
 
     @Get
