@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import org.slf4j.Logger
 import com.box.sdk.BoxWebHookSignatureVerifier
 import io.micronaut.http.HttpRequest
-import java.nio.charset.Charset
+import java.net.InetAddress
 
 @Controller("/")
 class SampleController {
@@ -29,6 +29,7 @@ class SampleController {
             @Header("box-signature-secondary") secondarySignature: String,
             @Header("box-signature-version") version: String,
             @Header("content-type") contentType: String,
+            @Header("x-forwarded-for") xForwardedFor: String,
             @Body body: String
     ): String {
         logger.info("request headers -----")
@@ -44,7 +45,7 @@ class SampleController {
         }
 
         logger.info("request headers -----")
-        logger.info("remoteAddress: {}", request.remoteAddress)
+        logger.info("remoteHost: {}", InetAddress.getByAddress(xForwardedFor.toByteArray()))
         logger.info("request body: {}", body)
         val newBody = body.toByteArray(Charsets.UTF_8).toString(Charsets.UTF_8)
         logger.info("newBody: {}", newBody)
