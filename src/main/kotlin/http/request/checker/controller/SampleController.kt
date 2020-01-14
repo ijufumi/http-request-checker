@@ -77,6 +77,18 @@ class SampleController {
             logger.info("validation2: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, newBody2, timestamp))
 
         }
+
+        val newBody = convertToUnicode(body)
+        logger.info("{} newBody: {}", "Unicode", newBody)
+        logger.info("validation: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, newBody, timestamp))
+    }
+
+    private fun convertToUnicode(body: String): String {
+        val sb = StringBuilder()
+        for(i in 0..body.length) {
+            sb.append(String.format("\\u%04X", Character.codePointAt(body, i)))
+        }
+        return sb.toString()
     }
 
     @Get
