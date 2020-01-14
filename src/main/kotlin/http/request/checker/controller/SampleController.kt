@@ -85,7 +85,7 @@ class SampleController {
 
     private fun convertToUnicode(body: String): String {
         val sb = StringBuilder()
-        for(i in 0..body.length) {
+        for(i in body.indices) {
             sb.append(String.format("\\u%04X", Character.codePointAt(body, i)))
         }
         return sb.toString()
