@@ -57,16 +57,7 @@ class SampleController {
                            secondarySignature: String,
                            timestamp: String,
                            body: String) {
-        val list = arrayOf(
-                Charsets.UTF_8,
-                Charsets.UTF_16,
-                Charsets.UTF_32,
-                Charsets.ISO_8859_1,
-                Charsets.US_ASCII,
-                Charsets.UTF_16BE,
-                Charsets.UTF_16LE,
-                Charsets.UTF_32BE,
-                Charsets.UTF_32LE)
+        val list = arrayOf(Charsets.UTF_8)
         val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
         logger.info("defaultCharset: {}", Charset.defaultCharset())
         for (char in list) {
@@ -86,7 +77,13 @@ class SampleController {
     private fun convertToUnicode(body: String): String {
         val sb = StringBuilder()
         for(i in body.indices) {
-            sb.append(String.format("\\u%04X", Character.codePointAt(body, i)))
+            val c = Character.codePointAt(body, i)
+            if (c.toString().length < 2) {
+                sb.append(c)
+            } else {
+                sb.append(String.format("\\u%04X", Character.codePointAt(body, i)))
+            }
+
         }
         return sb.toString()
     }
