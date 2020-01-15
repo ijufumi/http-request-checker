@@ -78,7 +78,7 @@ class SampleController {
         val sb = StringBuilder()
         for(i in body.indices) {
             val c = Character.codePointAt(body, i)
-            if (c.toString().length < 2) {
+            if (c.toString().toByteArray().size < 2) {
                 sb.append(c)
             } else {
                 sb.append(String.format("\\u%04X", Character.codePointAt(body, i)))
