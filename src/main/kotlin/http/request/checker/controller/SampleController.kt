@@ -76,7 +76,7 @@ class SampleController {
 
     private fun convertToUnicode(body: String): String {
         val sb = StringBuilder()
-        for((idx, c) in body.toCharArray().withIndex()) {
+        for(c in body.toCharArray()) {
             if (c.toString().toByteArray().size < 2) {
                 sb.append(c)
             } else {
