@@ -32,13 +32,14 @@ class SampleController {
             @Body body: String
     ): String {
         logger.info("request headers -----")
+        val nanoSec = System.nanoTime()
         for (header in request.headers) {
-            logger.info("[{}]: {}", header.key, header.value)
+            logger.info("[{}][{}]: {}", nanoSec, header.key, header.value)
         }
 
         logger.info("request headers -----")
         // logger.info("remoteHost: {}", InetAddress.getByName(xForwardedFor).hostName)
-        validation(version, algorithm, primarySignature, secondarySignature, timestamp, body)
+        validation(version, algorithm, primarySignature, secondarySignature, timestamp, body, nanoSec)
         return "hello, world"
     }
 
@@ -47,11 +48,12 @@ class SampleController {
                            primarySignature: String,
                            secondarySignature: String,
                            timestamp: String,
-                           body: String) {
+                           body: String,
+                           nanoSec: Long) {
         val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
         val newBody = convertToUnicode(body)
-        logger.info("{} newBody: {}", "Unicode", newBody)
-        logger.info("validation: {}", validation.verify(version, algorithm, primarySignature, secondarySignature, newBody, timestamp))
+        logger.info("[{}] {} newBody: {}", nanoSec, "Unicode", newBody)
+        logger.info("[{}] validation: {}", nanoSec, validation.verify(version, algorithm, primarySignature, secondarySignature, newBody, timestamp))
     }
 
     private fun convertToUnicode(body: String): String {
