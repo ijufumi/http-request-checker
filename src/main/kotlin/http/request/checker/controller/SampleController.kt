@@ -78,7 +78,7 @@ class SampleController {
         val sb = StringBuilder()
         for((idx, c) in body.toCharArray().withIndex()) {
             if (idx == 0) {
-                logger.info("{}:{}", c.toString(), c.toString())
+                logger.info("{}:{}", c.toString(), c.toString().toByteArray().size)
             }
             if (c.toString().toByteArray().size < 2) {
                 sb.append(c)
