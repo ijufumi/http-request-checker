@@ -76,17 +76,15 @@ class SampleController {
 
     private fun convertToUnicode(body: String): String {
         val sb = StringBuilder()
-        for(i in body.indices) {
-            val c = Character.codePointAt(body, i)
-            if (i == 0) {
-                logger.info("{}:{}", c, c.toString().toByteArray().size)
+        for((idx, c) in body.toCharArray().withIndex()) {
+            if (idx == 0) {
+                logger.info("{}:{}", c.toString(), c.toString())
             }
             if (c.toString().toByteArray().size < 2) {
                 sb.append(c)
             } else {
-                sb.append(String.format("\\u%04X", Character.codePointAt(body, i)))
+                sb.append(String.format("\\u%04X", c))
             }
-
         }
         return sb.toString()
     }
