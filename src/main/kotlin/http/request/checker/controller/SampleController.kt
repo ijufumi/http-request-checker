@@ -51,6 +51,7 @@ class SampleController {
                            body: String,
                            nanoSec: Long) {
         val validation = BoxWebHookSignatureVerifier(primaryKey, secondaryKey)
+        logger.info("[{}] {} body: {}", nanoSec, "UTF-8", body)
         val newBody = convertToUnicode(body)
         logger.info("[{}] {} newBody: {}", nanoSec, "Unicode", newBody)
         logger.info("[{}] validation: {}", nanoSec, validation.verify(version, algorithm, primarySignature, secondarySignature, newBody, timestamp))
