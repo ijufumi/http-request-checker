@@ -81,7 +81,7 @@ class SampleController {
                 sb.append(c)
             } else {
                 logger.info("{}", c.toString())
-                sb.append(String.format("\\u%04X", c.toInt()))
+                sb.append(String.format("\\u%04x", c.toInt()))
             }
         }
         return sb.toString()
