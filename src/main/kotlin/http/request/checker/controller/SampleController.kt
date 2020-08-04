@@ -70,8 +70,11 @@ class SampleController {
         return sb.toString()
     }
 
-    @Post("/test")
-    fun postForTest(@Body body: String): String {
+    @Post("/test", consumes = [MediaType.APPLICATION_JSON])
+    fun postForTest(
+            request: HttpRequest<Any>,
+            @Body body: String
+    ): String {
         logger.info("request headers -----")
         val nanoSec = System.nanoTime()
         for (header in request.headers) {
