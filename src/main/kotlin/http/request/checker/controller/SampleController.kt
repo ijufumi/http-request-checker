@@ -70,6 +70,19 @@ class SampleController {
         return sb.toString()
     }
 
+    @Post("/test")
+    fun postForTest(@Body body: String): String {
+        logger.info("request headers -----")
+        val nanoSec = System.nanoTime()
+        for (header in request.headers) {
+            logger.info("[{}][{}]: {}", nanoSec, header.key, header.value)
+        }
+        logger.info("request headers -----")
+        logger.info("body: {}", body)
+
+        return "hello, world"
+    }
+
     @Get
     fun index(): String {
         return "hello, world"
