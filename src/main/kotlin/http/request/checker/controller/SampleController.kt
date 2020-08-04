@@ -86,7 +86,7 @@ class SampleController {
         logger.info("request headers -----")
         logger.info("body: {}", body)
 
-        return HttpResponse.created(Response(message = "aaa"))
+        return HttpResponse.ok(Response(message = "aaa"))
     }
 
     @Get
