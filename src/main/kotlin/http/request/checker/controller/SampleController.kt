@@ -70,11 +70,13 @@ class SampleController {
         return sb.toString()
     }
 
-    @Post("/test", consumes = [MediaType.APPLICATION_JSON])
+    @Post("/test",
+            consumes = [MediaType.APPLICATION_JSON],
+            produces = [MediaType.APPLICATION_JSON])
     fun postForTest(
             request: HttpRequest<Any>,
             @Body body: String
-    ): String {
+    ): Response {
         logger.info("request headers -----")
         val nanoSec = System.nanoTime()
         for (header in request.headers) {
@@ -83,7 +85,7 @@ class SampleController {
         logger.info("request headers -----")
         logger.info("body: {}", body)
 
-        return "hello, world"
+        return Response(message = "Hello, world")
     }
 
     @Get
@@ -91,3 +93,5 @@ class SampleController {
         return "hello, world"
     }
 }
+
+data class Response(val message: String)
