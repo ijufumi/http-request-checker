@@ -77,7 +77,7 @@ class SampleController {
     fun postForTest(
             request: HttpRequest<Any>,
             @Body body: String
-    ): Response {
+    ): Any {
         logger.info("request headers -----")
         val nanoSec = System.nanoTime()
         for (header in request.headers) {
@@ -86,7 +86,7 @@ class SampleController {
         logger.info("request headers -----")
         logger.info("body: {}", body)
 
-        return HttpResponse.ok(Response(message = "aaa"))
+        return HttpResponse.ok(Response("aaa"))
     }
 
     @Get
