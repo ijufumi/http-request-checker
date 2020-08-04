@@ -11,6 +11,7 @@ import org.slf4j.Logger
 import com.box.sdk.BoxWebHookSignatureVerifier
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
+import java.util.*
 
 @Controller("/")
 class SampleController {
@@ -86,7 +87,7 @@ class SampleController {
         logger.info("request headers -----")
         logger.info("body: {}", body)
 
-        return HttpResponse.ok(Response("aaa"))
+        return HttpResponse.ok(Collections.singletonMap("msg", "OK"))
     }
 
     @Get
@@ -94,5 +95,3 @@ class SampleController {
         return "hello, world"
     }
 }
-
-data class Response(val message: String)
