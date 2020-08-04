@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 import org.slf4j.Logger
 import com.box.sdk.BoxWebHookSignatureVerifier
 import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
 
 @Controller("/")
 class SampleController {
@@ -85,7 +86,7 @@ class SampleController {
         logger.info("request headers -----")
         logger.info("body: {}", body)
 
-        return Response(message = "Hello, world")
+        return HttpResponse.created(Response(message = "aaa"))
     }
 
     @Get
